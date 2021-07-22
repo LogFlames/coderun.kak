@@ -32,9 +32,9 @@ define-command -params 0..1 -file-completion -docstring 'coderun [<filename>]: r
 		FULL="$DIRECTORY/$FILE"
 		NAME="${FILE%.*}"
 		EXTENSION=$(printf '%s' "$FILE" | sed -e "s/^$NAME\.*//" -e 's/+/p/g' -e 's/-/_/g')
-
+		EXTENSION_LOWER=$(echo $EXTENSION | tr '[:upper:]' '[:lower:]')
 
 		# Start
-		eval "printf '%s' \"$(eval "printf '%s' \"\$CODERUN_$EXTENSION\""); printf '\\n\\033[1mFinished (press enter to exit)\\033[0m' && read enter\""
+		eval "printf '%s' \"$(eval "printf '%s' \"\$CODERUN_$EXTENSION_LOWER\""); printf '\\n\\033[1mFinished (press enter to exit)\\033[0m' && read enter\""
 	}
 }
