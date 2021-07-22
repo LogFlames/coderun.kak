@@ -31,10 +31,9 @@ define-command -params 0..1 -file-completion -docstring 'coderun [<filename>]: r
 		FILE=$(basename "${1:-$kak_buffile}")
 		FULL="$DIRECTORY/$FILE"
 		NAME="${FILE%.*}"
-		EXTENSION=$(printf '%s' "$FILE" | sed -e "s/^$NAME\.*//" -e 's/+/p/g' -e 's/-/_/g')
-		EXTENSION_LOWER=$(echo $EXTENSION | tr '[:upper:]' '[:lower:]')
+		EXTENSION=$(printf '%s' "$FILE" | sed -e "s/^$NAME\.*//" -e 's/+/p/g' -e 's/-/_/g'| tr '[:upper:]' '[:lower:]')
 
-		# Start
-		eval "printf '%s' \"trap ':' SIGINT; $(eval "printf '%s' \"\$CODERUN_$EXTENSION_LOWER\""); printf '\\n\\033[1mFinished (press enter to exit)\\033[0m' && while : ; do read -s -N 1 key ; if [[ \\\$key == $'\\x0a' ]] ; then break ; fi ; done\""
+        # Start
+        eval "printf '%s' \"trap ':' SIGINT; $(eval "printf '%s' \"\$CODERUN_$EXTENSION\""); while read -t 0.01; do :; done; printf '\\n\\033[1mFinished (press enter to exit)\\033[0m' && while : ; do read -s -N 1 key ; if [[ \\\$key == $'\\x0a' ]] ; then break ; fi ; done\""
 	}
 }
